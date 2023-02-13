@@ -20,35 +20,22 @@ extern "C"{
 #include <stdbool.h>
 #include "NexTouch.h"
 #include "NexHardware.h"
+#include "NexObject.h"
+#include "NexWidget.h"
 
-typedef enum _Nextion_return_code{
-    NEXTION_INVALID_INSTRUCTION = 0x00,
-    NEXTION_INSTRUCTION_SUCCESFUL
+/**
+ * @brief 
+ * 
+ */
+typedef struct _NexButton{
+    NexObject object;   // Basic component (type, id, page id, object name, component scope)
+    
 
-} Nextion_return_code;
-
-uint8_t NexButton_getText(NexObject *button, char *buffer, uint16_t len);
-uint8_t NexButton_setText(NexObject *button, char *buffer);
-
-uint32_t NexButton_getBackGroundColor(NexObject *button, uint32_t *number);
-uint8_t NexButton_setBackGroundColor(NexObject *button, uint32_t *number);
-
-uint32_t NexButton_getPressBackGroundColor(NexObject *button, uint32_t *number);
-uint8_t NexButton_setPressBackGroundColor(NexObject *button, uint32_t *number);
-
-uint32_t NexButton_getFontColor(NexObject *button, uint32_t *number);
-uint8_t NexButton_setFontColor(NexObject *button, uint32_t *number);
-
-uint32_t NexButton_getPressFontColor(NexObject *button, uint32_t *number);
-uint8_t NexButton_setPressFontColor(NexObject *button, uint32_t *number);
-
-uint32_t NexButton_getFont(NexObject *button, uint32_t *number);
-uint8_t NexButton_setFont(NexObject *button, uint32_t number);
+} NexButton;
 
 
 #ifdef __cplusplus
 }
 #endif
-
 
 #endif /*NEXBUTTON_H*/
