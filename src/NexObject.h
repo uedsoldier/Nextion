@@ -1,6 +1,6 @@
 /**
  * @file NexObject.h
- * @author your name (you@domain.com)
+ * @author José Roberto Parra Trewartha (uedsoldier1990@gmail.com)
  * @brief 
  * @version 0.1
  * @date 2023-02-09
@@ -18,8 +18,9 @@ extern "C"{
 
 #include <stdint.h>
 #include <stdbool.h>
-
-typedef void (*NexTouchEventCb)(void *ptr);
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 /**
  * @brief 
@@ -79,7 +80,7 @@ typedef enum _NexObject_scope{
  */
 typedef struct _NexObject
 {
-    static NexObject_type type; // Component type (read-only at runtime)
+    NexObject_type type; // Component type (read-only at runtime)
     uint8_t page_id;            // Page ID (read-only at runtime)
     uint8_t id;                 // Component ID (read-only at runtime)
     char objname[16];           // Component unique name (read-only at runtime)
