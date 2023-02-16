@@ -2,6 +2,7 @@
     "files.associations": {
         "nexpage.h": "c",
         "nexhardware.h": "c",
-        "nextouch.h": "c"
+        "nextouch.h": "c",
+        "nexwidget.h": "c"
     }
 }

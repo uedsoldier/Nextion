@@ -17,9 +17,7 @@ extern "C"{
 
 #include <stdint.h>
 #include <stdbool.h>
-#include "NexTouch.h"
 #include "NexHardware.h"
-#include "NexEffect.h"
 #include "NexWidget.h"
 
 /**
@@ -49,8 +47,9 @@ typedef struct _NexText{
     
     #endif 
     Nex_textBackgroundFill backgroundFill;  // Background fill:0-crop image;1-solid color;2-image;3-transparency
-    uint8_t crop_pic_id;                    // Background crop image(must be full screen image)
-
+    uint8_t crop_pic_id;                    // Background crop image(must be full screen image. Only if crop image background is selected)
+    uint16_t background_color;              // Background color (only if solid color is defined)
+    uint8_t pic_id;                         // Background Image id (must be fullscreen image. Only if background image is selected)
 
     
 } NexText;
