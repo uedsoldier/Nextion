@@ -21,9 +21,7 @@
  * @param effect 
  */
 void NexPage_init(NexPage *nex_page,uint8_t component_id, uint8_t page_id, const char *name, Nex_effect effect){
-    nex_page->widget.object.id = component_id;
-    nex_page->widget.object.page_id = page_id;
-    strcpy(nex_page->widget.object.objname,name);
+    NexWidget_init(nex_page->widget, component_id, page_id, name );
     #if defined(NEX_PAGE_USE_EFFECTS) && (NEX_PAGE_USE_EFFECTS > 0)
     nex_page->widget.effect = effect;
     #else

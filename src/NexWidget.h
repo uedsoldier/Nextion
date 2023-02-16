@@ -64,8 +64,6 @@ typedef struct _NexWidget{
     bool drag;                  // Drag available:0-no;1-yes
     int8_t aph;                 // Opaqueness(0-127)
     Nex_effect effect;          // Load effect
-    uint8_t effect_priority;    // Effect priority(run high value first,max:100)   
-    uint16_t effect_time;       // effect time(min 150 [ms], max 65535 [ms])   
     uint16_t x;                 // X coordinate 
     uint16_t y;                 // Y coordinate 
     uint16_t w;                 // Width (read-only at runtime)
@@ -73,6 +71,9 @@ typedef struct _NexWidget{
 
 
 } NexWidget;
+
+
+NexReturnCode NexWidget_init(NexWidget *nex_widget);
 
 #ifdef __cplusplus
 }

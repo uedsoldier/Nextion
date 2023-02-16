@@ -54,6 +54,11 @@ typedef struct _NexText{
     
 } NexText;
 
+void NexText_init(NexText *nex_text,uint8_t component_id, uint8_t page_id, const char *name, Nex_effect effect );
+NexReturnCode NexText_setText(NexText *nex_text, const char *text);
+uint16_t NexText_getText(NexText *nex_text, char *text, uint16_t len);
+// NexReturnCode NexText_setBackGroundSolidColor(NexText *nex_text, uint16_t bg_color );
+// NexReturnCode NexText_setBackGroundImage(NexText *nex_text);
 
 #ifdef __cplusplus
 }

@@ -10,3 +10,22 @@
  */
 
 #include "NexWidget.h"
+
+/**
+ * @brief 
+ * 
+ * @param nex_widget 
+ * @return NexReturnCode 
+ */
+NexReturnCode NexWidget_init(NexWidget *nex_widget, uint8_t component_id, uint8_t page_id, const char *name){
+    nex_widget.object.id = component_id;
+    nex_widget.object.page_id = page_id;
+    strcpy(nex_widget.object.objname,name);
+}
+
+
+
+
+
+
+

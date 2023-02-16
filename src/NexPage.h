@@ -18,7 +18,6 @@ extern "C"{
 
 #include <stdint.h>
 #include <stdbool.h>
-#include "NexTouch.h"
 #include "NexHardware.h"
 #include "NexWidget.h"
 
@@ -48,15 +47,21 @@ typedef enum _Nex_scrollDirection{
  */
 typedef struct _NexPage{
     NexWidget widget;                   // Base widget proporties
-    #if defined(NEX_PAGE_USE_EFFECTS) && (NEX_PAGE_USE_EFFECTS > 0)
+    #if defined(NEX_PAGE_USE_EFFECTS) 
+    #if(NEX_PAGE_USE_EFFECTS > 0)
     uint8_t scroll_up;                   // Scroll up page ID (No scrolling page:255)
     uint8_t scroll_down;                 // Scroll down page ID (No scrolling page:255)
     uint8_t scroll_left;                 // Scroll left page ID (No scrolling page:255)
     uint8_t scroll_right;                // Scroll right page ID (No scrolling page:255)
+    #endif
+    #if(NEX_PAGE_USE_EFFECTS > 1)
+    uint8_t effect_priority;    // Effect priority(run high value first,max:100)   
+    uint16_t effect_time;       // effect time(min 150 [ms], max 65535 [ms])
+    #endif
     #endif 
     Nex_pageBackgroundFill background_fill; // Background fill:0-no background;1-solid color;2-image (read-only at runtime)
     uint16_t background_color;           // Background color (only if solid color is defined)
-    uint8_t pic_id;                     // Background Image id (must be fullscreen image)   
+    uint8_t pic_id;                     // Background Image id (must be fullscreen image. Only if background image is selected)   
 
     //
     
