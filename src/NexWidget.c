@@ -15,6 +15,9 @@
  * @brief 
  * 
  * @param nex_widget 
+ * @param component_id 
+ * @param page_id 
+ * @param name 
  * @return NexReturnCode 
  */
 NexReturnCode NexWidget_init(NexWidget *nex_widget, uint8_t component_id, uint8_t page_id, const char *name){
