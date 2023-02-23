@@ -11,39 +11,21 @@
 
 #include "NexText.h"
 
-/**
- * @brief 
- * 
- * @param nex_text 
- * @param component_id 
- * @param page_id 
- * @param name 
- * @param effect 
- */
 void NexText_init(NexText *nex_text,uint8_t component_id, uint8_t page_id, const char *name, Nex_effect effect ){
-
+    NexObject_init(&nex_text->widget.object, page_id, component_id, name);
 }
 
-/**
- * @brief 
- * 
- * @param nex_text 
- * @param text 
- * @return NexReturnCode 
- */
 NexReturnCode NexText_setText(NexText *nex_text, const char *text){
-
+    memset(Nex_txBuffer, 0, sizeof(Nex_txBuffer));
+    sprintf(Nex_txBuffer,"%s.txt=\"%s\"",nex_text->widget.object.objname,text);
+    NexHardware_sendCommand(Nex_txBuffer);
+    return NEX_RETCODE_ERROR; //TODO
 }
 
-/**
- * @brief 
- * 
- * @param nex_text 
- * @param text 
- * @param len 
- * @return uint16_t 
- */
 uint16_t NexText_getText(NexText *nex_text, char *text, uint16_t len){
-
+    memset(Nex_txBuffer, 0, sizeof(Nex_txBuffer));
+    sprintf(Nex_txBuffer,"get %s.txt",nex_text->widget.object.objname);
+    NexHardware_sendCommand(Nex_txBuffer);
+    return 0; //TODO
 }
 

@@ -18,6 +18,7 @@ extern "C"{
 
 #include <stdint.h>
 #include <stdbool.h>
+#include <stdlib.h>
 #include "NexHardware.h"
 #include "NexWidget.h"
 
@@ -68,12 +69,51 @@ typedef struct _NexPage{
     
 } NexPage;
 
-void NexPage_init(NexPage *nex_page,uint8_t component_id, uint8_t page_id, const char *name, Nex_effect effect );
+/**
+ * 
+ * @param nex_page
+ * @param component_id
+ * @param page_id
+ * @param name
+ * @param effect
+ * @param background_fill
+ */
+void NexPage_init(NexPage *nex_page,uint8_t component_id, uint8_t page_id, const char *name, Nex_effect effect, Nex_pageBackgroundFill background_fill);
+
+/**
+ * @brief 
+ * 
+ * @param nex_page 
+ * @return NexReturnCode 
+ */
 NexReturnCode NexPage_show(NexPage *nex_page);
+
+/**
+ * @brief 
+ * 
+ * @param nex_page 
+ * @param bg_color 
+ * @return NexReturnCode 
+ */
 NexReturnCode NexPage_setBackGroundSolidColor(NexPage *nex_page, uint16_t bg_color );
-NexReturnCode NexPage_setBackGroundImage(NexPage *nex_page);
+
+/**
+ * 
+ * @param nex_page
+ * @param pic_id
+ * @return 
+ */
+NexReturnCode NexPage_setBackGroundImage(NexPage *nex_page, uint8_t pic_id);
 
 #if defined(NEX_PAGE_USE_EFFECTS) && (NEX_PAGE_USE_EFFECTS > 0)
+/**
+ * @brief 
+ * 
+ * @param nex_page 
+ * @param direction 
+ * @param page_id 
+ * @return NexReturnCode 
+ */
 NexReturnCode NexPage_setScrollPage(NexPage *nex_page, Nex_scrollDirection direction, uint8_t page_id);
 #endif
 

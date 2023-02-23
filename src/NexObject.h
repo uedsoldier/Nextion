@@ -92,7 +92,15 @@ typedef struct _NexObject
     //void *cbpop_ptr;
 } NexObject;
 
-void Nex_createObject(NexObject *object, uint8_t page_id, uint8_t component_id, char *name);
+/**
+ * @brief 
+ * 
+ * @param object 
+ * @param page_id 
+ * @param component_id 
+ * @param name 
+ */
+void NexObject_init(NexObject *object, uint8_t page_id, uint8_t component_id, const char *name);
 
 #ifdef __cplusplus
 }

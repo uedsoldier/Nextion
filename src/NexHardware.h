@@ -20,13 +20,28 @@ extern "C"
 #include <stdint.h>
 #include <stdbool.h>
 #include <string.h>
-#pragma region
-
+#include "../../algorithms/src/CRC/crc.h"
+#pragma endregion
 /**
  * @brief
  *
  */
 #define NEXTION_USE_CRC 1
+
+/**
+ * @brief End of sequence byte (with USE_CRC enabled)
+ */
+#define NEXTION_END_BYTE_CRC 0xFE
+    
+/**
+ * @brief End of sequence preamble byte (with USE_CRC enabled)
+ */ 
+#define NEXTION_PREAMBLE_BYTE_CRC    0x01
+
+/**
+ * @brief End of sequence byte
+ */
+#define NEXTION_END_BYTE 0xFF
 
 /**
  * @brief
@@ -65,21 +80,73 @@ typedef enum _NexReturnCode
     NEX_RETCODE_START_MICROSD_UPGRADE = 0x89,              // Returned when power on detects inserted microSD
     NEX_RETCODE_TRANSPARENT_DATA_FINISHED = 0xFD,          // Returned when all requested bytes of Transparent Data mode have been received, and is now leaving transparent data mode (see https://nextion.tech/instruction-set/#s1_16 )
     NEX_RETCODE_TRANSPARENT_DATA_READY = 0xFE,             // 	0xFE 0xFF 0xFF 0xFF Returned when requesting Transparent Data mode, and device is now ready to begin receiving the specified quantity of data (see https://nextion.tech/instruction-set/#s1_16 )
-    NEX_RETCODE_ERROR
+    NEX_RETCODE_ERROR,
+    NEX_RETCODE_NO_RETCODE                                  // No code was returned from device, because no command was issued
 } NexReturnCode;
 
+
 #pragma region Callback definitions
+/**
+ * @brief 
+ * 
+ */
 uint8_t (*NexSerial_readByteBuffer)(void);
+
+/**
+ * @brief 
+ * 
+ */
 uint16_t (*NexSerial_readBytes)(void *, uint16_t);
-void (*NexSerial_writeByte)(void);
+
+/**
+ * @brief 
+ * 
+ */
+void (*NexSerial_writeByte)(uint8_t);
+
+/**
+ * @brief 
+ * 
+ */
 uint16_t (*NexSerial_dataAvailable)(void);
-void (*NexSerial_print)(uint8_t *);
+
+/**
+ * @brief 
+ * 
+ */
+void (*NexSerial_writeBuffer)(uint8_t *,size_t);
 #pragma endregion
 
-uint8_t Nex_txBuffer[64];   // TODO
+/**
+ * @brief 
+ * 
+ */
+char Nex_auxBuffer[12];  // TODO
 
-NexReturnCode Nex_sendCommand(char *command);
-inline void NexHardware_clear_txBuffer();
+/**
+ * @brief 
+ * 
+ */
+char Nex_txBuffer[64];   // TODO
+
+/**
+ * @brief 
+ * 
+ */
+char Nex_rxBuffer[64];   // TODO
+
+/**
+ * @brief 
+ * 
+ * @param command 
+ */
+void NexHardware_sendCommand(const char *command);
+
+/**
+ * @brief 
+ * @return 
+ */
+NexReturnCode NexHardware_init(void);
 
 #ifdef __cplusplus
 }

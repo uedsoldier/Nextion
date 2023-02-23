@@ -53,10 +53,35 @@ typedef struct _NexText{
 
     
 } NexText;
-
+/**
+ * @brief 
+ * 
+ * @param nex_text 
+ * @param component_id 
+ * @param page_id 
+ * @param name 
+ * @param effect 
+ */
 void NexText_init(NexText *nex_text,uint8_t component_id, uint8_t page_id, const char *name, Nex_effect effect );
+
+/**
+ * @brief Set text attribute of component.
+ * @param nex_text 
+ * @param text text buffer terminated with '\0'. 
+ * @return NexReturnCode 
+ */
 NexReturnCode NexText_setText(NexText *nex_text, const char *text);
+
+/**
+ * @brief Get text attribute of component.
+ * @param nex_text 
+ * @param text buffer storing text returned. 
+ * @param len length of buffer. 
+ * @return uint16_t The real length of text returned. 
+ */
 uint16_t NexText_getText(NexText *nex_text, char *text, uint16_t len);
+
+
 // NexReturnCode NexText_setBackGroundSolidColor(NexText *nex_text, uint16_t bg_color );
 // NexReturnCode NexText_setBackGroundImage(NexText *nex_text);
 

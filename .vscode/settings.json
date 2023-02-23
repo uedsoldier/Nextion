@@ -3,6 +3,9 @@
         "nexpage.h": "c",
         "nexhardware.h": "c",
         "nextouch.h": "c",
-        "nexwidget.h": "c"
+        "nexwidget.h": "c",
+        "nexobject.h": "c",
+        "nexeffect.h": "c",
+        "nextext.h": "c"
     }
 }

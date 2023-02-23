@@ -20,6 +20,7 @@ extern "C"{
 #include <stdbool.h>
 #include "NexObject.h"
 #include "NexEffect.h"
+#include "NexHardware.h"
 #pragma endregion
 
 /**
@@ -40,9 +41,9 @@ typedef enum _Nex_widgetStyle{
  * Horizontal alignment:0-Left;1-Center;2-Right
  */
 typedef enum _Nex_horizontalAlignment{
-    NEX_ALIGNMENT_LEFT    = 0,
-    NEX_ALIGNMENT_CENTER  = 1,
-    NEX_ALIGNMENT_RIGHT   = 2
+    NEX_H_ALIGNMENT_LEFT    = 0,
+    NEX_H_ALIGNMENT_CENTER  = 1,
+    NEX_H_ALIGNMENT_RIGHT   = 2
 } Nex_horizontalAlignment;
 
 /**
@@ -50,9 +51,9 @@ typedef enum _Nex_horizontalAlignment{
  * Vertical alignment:0-Up;1-Center;2-Down
  */
 typedef enum _Nex_verticalAlignment{
-    NEX_ALIGNMENT_UP        = 0,
-    NEX_ALIGNMENT_CENTER    = 1,
-    NEX_ALIGNMENT_DOWN      = 2
+    NEX_V_ALIGNMENT_UP        = 0,
+    NEX_V_ALIGNMENT_CENTER    = 1,
+    NEX_V_ALIGNMENT_DOWN      = 2
 } Nex_verticalAlignment;
 
 /**
@@ -72,8 +73,14 @@ typedef struct _NexWidget{
 
 } NexWidget;
 
-
-NexReturnCode NexWidget_init(NexWidget *nex_widget);
+/**
+ * @brief 
+ * @param nex_widget
+ * @param component_id
+ * @param page_id
+ * @param name
+ */
+void NexWidget_init(NexWidget *nex_widget, uint8_t component_id, uint8_t page_id, const char *name);
 
 #ifdef __cplusplus
 }
