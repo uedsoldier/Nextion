@@ -20,13 +20,18 @@ extern "C"
 #include <stdint.h>
 #include <stdbool.h>
 #include <string.h>
-#include "../../algorithms/src/CRC/crc.h"
+#include "crc.h"
 #pragma endregion
+    
+/**
+ * @brief
+ */
+#define NEXHARDWARE_LOG 1
 /**
  * @brief
  *
  */
-#define NEXTION_USE_CRC 1
+#define NEXTION_USE_CRC 0
 
 /**
  * @brief End of sequence byte (with USE_CRC enabled)
@@ -42,6 +47,15 @@ extern "C"
  * @brief End of sequence byte
  */
 #define NEXTION_END_BYTE 0xFF
+
+//
+#define NEX_CLEAR_TX_BUFFER   memset(Nex_txBuffer,0,sizeof(Nex_txBuffer)) \
+
+//
+#define NEX_CLEAR_RX_BUFFER   memset(Nex_rxBuffer,0,sizeof(Nex_rxBuffer)) 
+    
+//
+#define NEX_CLEAR_CMD_BUFFER   memset(Nex_cmdBuffer,0,sizeof(Nex_cmdBuffer)) 
 
 /**
  * @brief
@@ -81,7 +95,7 @@ typedef enum _NexReturnCode
     NEX_RETCODE_TRANSPARENT_DATA_FINISHED = 0xFD,          // Returned when all requested bytes of Transparent Data mode have been received, and is now leaving transparent data mode (see https://nextion.tech/instruction-set/#s1_16 )
     NEX_RETCODE_TRANSPARENT_DATA_READY = 0xFE,             // 	0xFE 0xFF 0xFF 0xFF Returned when requesting Transparent Data mode, and device is now ready to begin receiving the specified quantity of data (see https://nextion.tech/instruction-set/#s1_16 )
     NEX_RETCODE_ERROR,
-    NEX_RETCODE_NO_RETCODE                                  // No code was returned from device, because no command was issued
+    NEX_RETCODE_NO_NEX_RETCODE                                  // No code was returned from device, because no command was issued
 } NexReturnCode;
 
 
@@ -90,13 +104,13 @@ typedef enum _NexReturnCode
  * @brief 
  * 
  */
-uint8_t (*NexSerial_readByteBuffer)(void);
+void (*NexSerial_readByteBuffer)(uint8_t*);
 
 /**
  * @brief 
  * 
  */
-uint16_t (*NexSerial_readBytes)(void *, uint16_t);
+void (*NexSerial_readBuffer)(uint8_t*, size_t);
 
 /**
  * @brief 
@@ -105,10 +119,22 @@ uint16_t (*NexSerial_readBytes)(void *, uint16_t);
 void (*NexSerial_writeByte)(uint8_t);
 
 /**
+ * 
+ * 
+ */
+uint8_t (*NexSerial_readByte)(void);
+
+/**
  * @brief 
  * 
  */
-uint16_t (*NexSerial_dataAvailable)(void);
+size_t (*NexSerial_dataAvailable)(void);
+
+/**
+ * @brief 
+ * 
+ */
+void (*NexSerial_flushBuffer)(void);
 
 /**
  * @brief 
@@ -127,13 +153,24 @@ char Nex_auxBuffer[12];  // TODO
  * @brief 
  * 
  */
-char Nex_txBuffer[64];   // TODO
+uint8_t Nex_txBuffer[64];   // TODO
 
 /**
  * @brief 
  * 
  */
-char Nex_rxBuffer[64];   // TODO
+uint8_t Nex_rxBuffer[64];   // TODO
+
+/**
+ * @brief 
+ */
+uint8_t Nex_cmdBuffer[64]; // TODO
+
+/**
+ * @brief 
+ * 
+ */
+NexReturnCode nex_retCode;
 
 /**
  * @brief 
@@ -147,6 +184,101 @@ void NexHardware_sendCommand(const char *command);
  * @return 
  */
 NexReturnCode NexHardware_init(void);
+
+/**
+ * @brief 
+ * 
+ * @return NexReturnCode 
+ */
+NexReturnCode NexHardware_waitResponse(void);
+
+/**
+ * @brief 
+ * 
+ * @param buffer 
+ * @param len 
+ * @return size_t 
+ */
+size_t NexHardware_getString(uint8_t *buffer,size_t len);
+
+/**
+ * @brief 
+ * 
+ * @return true 
+ * @return false 
+ */
+static bool NexHardware_validateEndSequence(void);
+
+/**
+ * @brief Immediate reset of Nextion device – reboot.
+ * 
+ */
+void NexHardware_reset(void);
+
+/**
+ * @brief Sets Nextion mode between sleep and awake.
+ * sleep=1 (Enter sleep mode) or sleep=0 (Exit sleep mode)
+ * 
+ * @param sleep 
+ * @return NexReturnCode 
+ */
+NexReturnCode NexHardware_sleep(bool sleep);
+
+/**
+ * @brief Sets if Nextion should auto-wake from sleep when touch press occurs. min 0, max 1, default 0
+ * thup=0 (do not wake), thup=1 (wake on touch)
+ * @param autowake 
+ * @return NexReturnCode 
+ */
+NexReturnCode NexHardware_setAutoWakeOnTouch(bool autowake);
+
+/**
+ * @brief Sets internal No-touch-then-sleep timer to specified value in seconds. min 3, max 65535, default 0 (max: 18 hours 12 minutes 15 seconds)
+ * Nextion will auto-enter sleep mode if and when this timer expires. Note: Nextion device needs to exit sleep to issue thsp=0 to disable sleep
+ * on no touch, otherwise once thsp is set, it will persist until reboot or reset.
+ * 
+ * @param sleep_interval 
+ * @return NexReturnCode 
+ */
+NexReturnCode NexHardware_sleepOnNoTouch(uint16_t sleep_interval);
+
+/**
+ * @brief Sets the backlight level in percent min 0, max 100,
+ * default 100 or user defined
+ * 
+ * @param backlight_level 
+ * @return NexReturnCode 
+ */
+NexReturnCode NexHardware_setBacklightLevel(uint8_t backlight_level);
+
+/**
+ * @brief Sets the backlight level in percent, setting the current backlight level and saving it to be
+ * the new power-on default backlight level, persisting until changed.
+ * 
+ * @param backlight_level 
+ * @return NexReturnCode 
+ */
+NexReturnCode NexHardware_setBacklightLevelSave(uint8_t backlight_level);
+
+/**
+ * @brief Sets the Nextion Baud rate in bits-per-second min 2400, max 921600, default 9600 or user defined
+ * Valid values are: 2400, 4800, 9600, 19200, 31250, 38400, 57600, and 115200, 230400, 250000, 256000, 512000, and 921600
+ * 
+ * @param baud_rate 
+ * @return NexReturnCode 
+ */
+NexReturnCode NexHardware_setBaudRate(uint32_t baud_rate);
+
+/**
+ * @brief 
+ * 
+ * @param baud_rate 
+ * @return NexReturnCode 
+ */
+NexReturnCode NexHardware_setBaudRateSave(uint32_t baud_rate);
+
+
+
 
 #ifdef __cplusplus
 }

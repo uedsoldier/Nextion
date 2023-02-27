@@ -26,7 +26,13 @@ extern "C"{
  * @brief 
  * 
 */
-#define NEX_PAGE_USE_EFFECTS 0
+#define NEX_PAGE_LOG 1
+    
+/**
+ * @brief 
+ * 
+*/
+#define NEX_PAGE_USE_EFFECTS 1
 
 /**
  * @brief Background fill:0-no background;1-solid color;2-image
@@ -37,7 +43,10 @@ typedef enum _Nex_pageBackgroundFill{
     NEXPAGE_BACKGROUND_FILL_IMAGE       = 2,  
 } Nex_pageBackgroundFill;
 
-
+/**
+ * @brief 
+ * 
+ */
 typedef enum _Nex_scrollDirection{
     NEX_SCROLL_UP, NEX_SCROLL_DOWN, NEX_SCROLL_LEFT, NEX_SCROLL_RIGHT 
 } Nex_scrollDirection;
@@ -70,15 +79,14 @@ typedef struct _NexPage{
 } NexPage;
 
 /**
+ * @brief 
  * 
- * @param nex_page
- * @param component_id
- * @param page_id
- * @param name
- * @param effect
- * @param background_fill
+ * @param nex_page 
+ * @param name 
+ * @param effect 
+ * @param background_fill 
  */
-void NexPage_init(NexPage *nex_page,uint8_t component_id, uint8_t page_id, const char *name, Nex_effect effect, Nex_pageBackgroundFill background_fill);
+void NexPage_init(NexPage *nex_page, const char *name, Nex_effect effect, Nex_pageBackgroundFill background_fill);
 
 /**
  * @brief 
@@ -98,10 +106,11 @@ NexReturnCode NexPage_show(NexPage *nex_page);
 NexReturnCode NexPage_setBackGroundSolidColor(NexPage *nex_page, uint16_t bg_color );
 
 /**
+ * @brief 
  * 
- * @param nex_page
- * @param pic_id
- * @return 
+ * @param nex_page 
+ * @param pic_id 
+ * @return NexReturnCode 
  */
 NexReturnCode NexPage_setBackGroundImage(NexPage *nex_page, uint8_t pic_id);
 
@@ -117,8 +126,15 @@ NexReturnCode NexPage_setBackGroundImage(NexPage *nex_page, uint8_t pic_id);
 NexReturnCode NexPage_setScrollPage(NexPage *nex_page, Nex_scrollDirection direction, uint8_t page_id);
 #endif
 
-
-
+/**
+ * @brief Sends number of currently loaded page over serial (0x66 Return Data).
+ * Number of currently loaded page is stored in system variable dp
+ * Used in a page’s initialize event will auto-send as page loads
+ * 
+ * @param page_id 
+ * @return NexReturnCode 
+ */
+NexReturnCode NexPage_getCurrentPage(uint8_t *page_id);
 
 #ifdef __cplusplus
 }

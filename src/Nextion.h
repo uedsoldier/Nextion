@@ -21,5 +21,7 @@
 #include "NexProgressBar.h"
 #include "NexSlider.h"
 #include "NexText.h"
+#include "NexScrollingText.h"
+#include "NexGpio.h"
 
 #endif /* NEXTION_H */

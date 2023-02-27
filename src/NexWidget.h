@@ -28,33 +28,43 @@ extern "C"{
  * 
  */
 typedef enum _Nex_widgetStyle{
-    NEX_WIDGET_STYLE_FLAT       = 0,
-    NEX_WIDGET_STYLE_BORDER     = 1,
-    NEX_WIDGET_STYLE_3D_DOWN    = 2,
-    NEX_WIDGET_STYLE_3D_UP      = 3,
-    NEX_WIDGET_STYLE_NONE       = -1
+    NEXWIDGET_STYLE_FLAT       = 0,
+    NEXWIDGET_STYLE_BORDER     = 1,
+    NEXWIDGET_STYLE_3D_DOWN    = 2,
+    NEXWIDGET_STYLE_3D_UP      = 3,
+    NEXWIDGET_STYLE_NONE       = -1
 } Nex_widgetStyle;
 
+/**
+ * @brief Background fill:0-crop image;1-solid color;2-image;3-transparency
+ */
+typedef enum _NexWidget_backgroundFill
+{
+    NEXWIDGET_BACKGROUND_FILL_CROP_IMAGE = 0,
+    NEXWIDGET_BACKGROUND_FILL_SOLID_COLOR = 1,
+    NEXWIDGET_BACKGROUND_FILL_IMAGE = 2,
+    NEXWIDGET_BACKGROUND_FILL_TRANSPARENCY = 3,
+} NexWidget_backgroundFill;
 
 /**
- * @brief 
- * Horizontal alignment:0-Left;1-Center;2-Right
+ * @brief Horizontal alignment:0-Left;1-Center;2-Right
  */
-typedef enum _Nex_horizontalAlignment{
-    NEX_H_ALIGNMENT_LEFT    = 0,
-    NEX_H_ALIGNMENT_CENTER  = 1,
-    NEX_H_ALIGNMENT_RIGHT   = 2
-} Nex_horizontalAlignment;
+typedef enum _NexWidget_horizontalAlign
+{
+    NEXWIDGET_HORIZONTAL_ALIGN_LEFT = 0,
+    NEXWIDGET_HORIZONTAL_ALIGN_CENTER = 1,
+    NEXWIDGET_HORIZONTAL_ALIGN_RIGHT = 2,
+} NexWidget_horizontalAlign;
 
 /**
- * @brief 
- * Vertical alignment:0-Up;1-Center;2-Down
+ * @brief Vertical alignment:0-Up;1-Center;2-Down
  */
-typedef enum _Nex_verticalAlignment{
-    NEX_V_ALIGNMENT_UP        = 0,
-    NEX_V_ALIGNMENT_CENTER    = 1,
-    NEX_V_ALIGNMENT_DOWN      = 2
-} Nex_verticalAlignment;
+typedef enum _NexWidget_verticalAlign
+{
+    NEXWIDGET_VERTICAL_ALIGN_UP = 0,
+    NEXWIDGET_VERTICAL_ALIGN_CENTER = 1,
+    NEXWIDGET_VERTICAL_ALIGN_DOWN = 2,
+} NexWidget_verticalAlign;
 
 /**
  * @brief 
