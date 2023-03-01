@@ -14,6 +14,7 @@
 
 void NexPage_init(NexPage *nex_page, const char *name, Nex_effect effect, Nex_pageBackgroundFill background_fill){
     NexObject_init(&nex_page->widget.object, NULL, NULL, name );
+    nex_page->widget.object.type = NEXOBJECT_TYPE_PAGE;
     #if defined(NEX_PAGE_USE_EFFECTS) && (NEX_PAGE_USE_EFFECTS > 0)
     nex_page->widget.effect = effect;
     #else

@@ -13,6 +13,7 @@
 void NexScrollingText_init(NexScrollingText *nex_scrollingText, uint8_t component_id, uint8_t page_id, const char *name, Nex_effect effect, NexWidget_backgroundFill fill)
 {
     NexObject_init(&nex_scrollingText->widget.object, page_id, component_id, name);
+    nex_scrollingText->widget.object.type = NEXOBJECT_TYPE_SCROLLING_TEXT;
     nex_scrollingText->widget.effect = effect;
     nex_scrollingText->backgroundFill = fill;
 }

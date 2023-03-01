@@ -14,6 +14,7 @@
 void NexText_init(NexText *nex_text, uint8_t component_id, uint8_t page_id, const char *name, Nex_effect effect, NexWidget_backgroundFill fill)
 {
     NexObject_init(&nex_text->widget.object, page_id, component_id, name);
+    nex_text->widget.object.type = NEXOBJECT_TYPE_TEXT;
     nex_text->widget.effect = effect;
     nex_text->backgroundFill = fill;
 }
