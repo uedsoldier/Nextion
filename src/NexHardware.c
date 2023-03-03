@@ -33,6 +33,13 @@ void NexHardware_sendCommand(const char *command)
     Nex_txBuffer[command_length++] = NEXTION_END_BYTE;
     Nex_txBuffer[command_length++] = NEXTION_END_BYTE;
 #endif
+    #if defined(NEXHARDWARE_LOG) && (NEXHARDWARE_LOG > 0)
+    for (size_t i = 0; i != command_length; i++)
+    {
+        printf(" -> txBuffer[%u]=0x%02X\n",i,Nex_txBuffer[i]);
+    }
+    
+    #endif
     NexSerial_writeBuffer((uint8_t *)Nex_txBuffer, command_length);
 }
 
@@ -44,17 +51,13 @@ NexReturnCode NexHardware_init(void){
     NEX_CLEAR_RX_BUFFER;
     NEX_CLEAR_CMD_BUFFER;
     NexHardware_sendCommand("");
+    NexHardware_waitResponse();//
     NexHardware_sendCommand("bkcmd=3"); // Always wait for return codes
     return NexHardware_waitResponse();
     
 }
 
 NexReturnCode NexHardware_waitResponse(void){
-    #if defined(NEXTION_USE_CRC) && (NEXTION_USE_CRC > 0)
-    #define NEX_RESPONSE_BYTES 4
-    #else
-    #define NEX_RESPONSE_BYTES 3
-    #endif
     #if defined(NEXHARDWARE_LOG) && (NEXHARDWARE_LOG > 0)
     printf("NexHardware_waitResponse(). Waiting...\n");
     #endif
@@ -65,19 +68,52 @@ NexReturnCode NexHardware_waitResponse(void){
         while(NexSerial_dataAvailable() == 0);
         NexSerial_readByteBuffer(&byteRead);
         Nex_rxBuffer[index++] = byteRead;
-        #if defined(NEXTION_USE_CRC) && (NEXTION_USE_CRC > 0)
-        if(byteRead == NEXTION_END_BYTE_CRC || byteRead == NEXTION_PREAMBLE_BYTE_CRC)
-            response_cnt++;
-        #else
         if(byteRead == NEXTION_END_BYTE)
             response_cnt++;
-        #endif
         if(response_cnt == NEX_RESPONSE_BYTES)
             response = true;
     }
+    #if defined(NEXHARDWARE_LOG) && (NEXHARDWARE_LOG > 0)
+    printf("NexHardware_waitResponse(). Bytes read:%u\n",index);
+    #endif
     retCode = Nex_rxBuffer[0];
     return retCode;
-    
+}
+
+bool NexHardware_getString(char *buffer,size_t *len){
+    bool retVal = false;
+    uint8_t *p=Nex_rxBuffer;
+    uint8_t retCode = *p++;
+    uint8_t readByte = *p++;
+    if(retCode == NEX_RETCODE_STRING_DATA_ENCLOSED)
+    {
+        retVal = true;
+        while(readByte != NEXTION_END_BYTE)
+        {
+            *buffer++ = readByte;
+            (*len)++;
+            readByte = *p++;
+        };
+    }
+    return retVal;
+}
+
+bool NexHardware_getNumber(uint32_t *number){
+    bool retVal = false;
+    uint8_t *p=Nex_rxBuffer;
+    uint8_t *nP = (uint8_t *)number;
+    uint8_t retCode = *p++;
+    uint8_t readByte = *p++;
+    if(retCode == NEX_RETCODE_NUMERIC_DATA_ENCLOSED)
+    {
+        retVal = true;
+        while(readByte != NEXTION_END_BYTE)
+        {
+            *nP++ = readByte;
+            readByte = *p++;
+        };
+    }
+    return retVal;
 }
 
 void NexHardware_reset(){

@@ -26,12 +26,12 @@ extern "C"
 /**
  * @brief
  */
-#define NEXHARDWARE_LOG 1
+#define NEXHARDWARE_LOG 0
 /**
  * @brief
  *
  */
-#define NEXTION_USE_CRC 0
+#define NEXTION_USE_CRC 1
 
 /**
  * @brief End of sequence byte (with USE_CRC enabled)
@@ -48,14 +48,29 @@ extern "C"
  */
 #define NEXTION_END_BYTE 0xFF
 
-//
+/**
+ * @brief 
+ * 
+ */
 #define NEX_CLEAR_TX_BUFFER   memset(Nex_txBuffer,0,sizeof(Nex_txBuffer)) \
 
-//
+/**
+ * @brief 
+ * 
+ */
 #define NEX_CLEAR_RX_BUFFER   memset(Nex_rxBuffer,0,sizeof(Nex_rxBuffer)) 
     
-//
+/**
+ * @brief 
+ * 
+ */
 #define NEX_CLEAR_CMD_BUFFER   memset(Nex_cmdBuffer,0,sizeof(Nex_cmdBuffer)) 
+
+/**
+ * @brief Response bytes quantity
+ * 
+ */
+#define NEX_RESPONSE_BYTES 3
 
 /**
  * @brief
@@ -197,9 +212,19 @@ NexReturnCode NexHardware_waitResponse(void);
  * 
  * @param buffer 
  * @param len 
- * @return size_t 
+ * @return true 
+ * @return false 
  */
-size_t NexHardware_getString(uint8_t *buffer,size_t len);
+bool NexHardware_getString(char *buffer,size_t *len);
+
+/**
+ * @brief 
+ * 
+ * @param number 
+ * @return true 
+ * @return false 
+ */
+bool NexHardware_getNumber(uint32_t *number);
 
 /**
  * @brief 

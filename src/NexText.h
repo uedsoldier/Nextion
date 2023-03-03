@@ -88,9 +88,9 @@ NexReturnCode NexText_setText(NexText *nex_text, const char *text);
  * @param nex_text
  * @param text buffer storing text returned.
  * @param len length of buffer.
- * @return uint16_t The real length of text returned.
+ * @return size_t 
  */
-uint16_t NexText_getText(NexText *nex_text, char *text, uint16_t len);
+NexReturnCode NexText_getText(NexText *nex_text, char *text, size_t *len);
 
 #if defined(NEXTEXT_USE_ADVANCED_FUNCTIONS) && (NEXTEXT_USE_ADVANCED_FUNCTIONS > 0)
 /**
