@@ -56,6 +56,7 @@ typedef enum _Nex_scrollDirection{
  * 
  */
 typedef struct _NexPage{
+    NexObject object;                   // Basic object
     NexWidget widget;                   // Base widget proporties
     #if defined(NEX_PAGE_USE_EFFECTS) 
     #if(NEX_PAGE_USE_EFFECTS > 0)
@@ -109,10 +110,25 @@ NexReturnCode NexPage_setBackGroundSolidColor(NexPage *nex_page, uint16_t bg_col
  * @brief 
  * 
  * @param nex_page 
+ * @param bg_color 
+ * @return NexReturnCode 
+ */
+NexReturnCode NexPage_getBackGroundSolidColor(NexPage *nex_page, uint16_t *bg_color );
+
+/**
+ * @brief 
+ * 
+ * @param nex_page 
  * @param pic_id 
  * @return NexReturnCode 
  */
 NexReturnCode NexPage_setBackGroundImage(NexPage *nex_page, uint8_t pic_id);
+
+/**
+ * @brief 
+ * 
+ */
+NexReturnCode NexPage_getBackGroundImage(NexPage *nex_page, uint8_t *pic_id);
 
 #if defined(NEX_PAGE_USE_EFFECTS) && (NEX_PAGE_USE_EFFECTS > 0)
 /**

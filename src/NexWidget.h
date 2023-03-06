@@ -71,7 +71,6 @@ typedef enum _NexWidget_verticalAlign
  * 
  */
 typedef struct _NexWidget{
-    NexObject object;           // Basic object
     bool drag;                  // Drag available:0-no;1-yes
     int8_t aph;                 // Opaqueness(0-127)
     Nex_effect effect;          // Load effect
@@ -83,14 +82,6 @@ typedef struct _NexWidget{
 
 } NexWidget;
 
-/**
- * @brief 
- * @param nex_widget
- * @param component_id
- * @param page_id
- * @param name
- */
-void NexWidget_init(NexWidget *nex_widget, uint8_t component_id, uint8_t page_id, const char *name);
 
 #ifdef __cplusplus
 }

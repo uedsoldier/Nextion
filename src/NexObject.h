@@ -71,7 +71,11 @@ typedef enum _NexObject_scope{
     GLOBAL = 1,
 } NexObject_scope;
 
-
+/**
+ * @brief 
+ * 
+ */
+typedef void (*NexTouch_eventCallback)(void *ptr);
 
 
 /**
@@ -86,21 +90,22 @@ typedef struct _NexObject
     char objname[16];           // Component unique name (read-only at runtime)
     NexObject_scope vscope;     // Variable scope(local-visible in current page, global-visible  in all pages):0-local;1-global
 
-    //NexTouchEventCb cb_push;
-    //void *cbpush_ptr;
-    //NexTouchEventCb cb_pop;
-    //void *cbpop_ptr;
+    NexTouch_eventCallback cb_push;    // Callback for push event
+    void *cbpush_ptr;           // Pointer for eventual push callback data
+    NexTouch_eventCallback cb_pop;     // Callback for pop event
+    void *cbpop_ptr;            // Pointer for eventual pop callback data    
 } NexObject;
 
 /**
  * @brief 
  * 
  * @param object 
+ * @param type 
  * @param page_id 
  * @param component_id 
  * @param name 
  */
-void NexObject_init(NexObject *object, uint8_t page_id, uint8_t component_id, const char *name);
+void NexObject_init(NexObject *object, NexObject_type type, uint8_t page_id, uint8_t component_id, const char *name);
 
 #ifdef __cplusplus
 }

@@ -13,15 +13,14 @@
 
 void NexText_init(NexText *nex_text, uint8_t component_id, uint8_t page_id, const char *name, Nex_effect effect, NexWidget_backgroundFill fill)
 {
-    NexObject_init(&nex_text->widget.object, page_id, component_id, name);
-    nex_text->widget.object.type = NEXOBJECT_TYPE_TEXT;
+    NexObject_init(&nex_text->object, NEXOBJECT_TYPE_TEXT,page_id, component_id, name);
     nex_text->widget.effect = effect;
     nex_text->backgroundFill = fill;
 }
 
 NexReturnCode NexText_setText(NexText *nex_text, const char *text)
 {
-    sprintf(Nex_cmdBuffer, "%s.txt=\"%s\"", nex_text->widget.object.objname, text);
+    sprintf(Nex_cmdBuffer, "%s.txt=\"%s\"", nex_text->object.objname, text);
     NexHardware_sendCommand(Nex_cmdBuffer);
     nex_retCode = NexHardware_waitResponse();
 #if defined(NEXTEXT_LOG) && (NEXTEXT_LOG > 0)
@@ -33,7 +32,7 @@ NexReturnCode NexText_setText(NexText *nex_text, const char *text)
 NexReturnCode NexText_getText(NexText *nex_text, char *text, size_t *len)
 {
     *len=0;
-    sprintf(Nex_cmdBuffer, "get %s.txt", nex_text->widget.object.objname);
+    sprintf(Nex_cmdBuffer, "get %s.txt", nex_text->object.objname);
     NexHardware_sendCommand(Nex_cmdBuffer);
     nex_retCode = NexHardware_waitResponse();
     NexHardware_getString(text,len);
@@ -42,7 +41,7 @@ NexReturnCode NexText_getText(NexText *nex_text, char *text, size_t *len)
 
 NexReturnCode NexText_setFontColor(NexText *nex_text, uint16_t font_color)
 {
-    sprintf(Nex_cmdBuffer, "%s.pco=%u", nex_text->widget.object.objname, font_color);
+    sprintf(Nex_cmdBuffer, "%s.pco=%u", nex_text->object.objname, font_color);
     NexHardware_sendCommand(Nex_cmdBuffer);
     nex_retCode = NexHardware_waitResponse();
 #if defined(NEXTEXT_LOG) && (NEXTEXT_LOG > 0)
@@ -51,9 +50,8 @@ NexReturnCode NexText_setFontColor(NexText *nex_text, uint16_t font_color)
     return nex_retCode;
 }
 
-NexReturnCode NexText_setBackGroundColor(NexText *nex_text, uint16_t bg_color ){
-    //NexReturnCode nex_retCode;
-    sprintf(Nex_cmdBuffer, "%s.bco=%u", nex_text->widget.object.objname, bg_color);
+NexReturnCode NexText_setBackGroundColor(NexText *nex_text, uint16_t background_color ){
+    sprintf(Nex_cmdBuffer, "%s.bco=%u", nex_text->object.objname, background_color);
     NexHardware_sendCommand(Nex_cmdBuffer);
     nex_retCode = NexHardware_waitResponse();
 #if defined(NEXTEXT_LOG) && (NEXTEXT_LOG > 0)
@@ -66,7 +64,7 @@ NexReturnCode NexText_setBackGroundImage(NexText *nex_text, uint8_t pic_id){
     if( nex_text->backgroundFill != NEXWIDGET_BACKGROUND_FILL_IMAGE){
         return NEX_RETCODE_ERROR;
     }
-    sprintf(Nex_cmdBuffer,"%s.pic=%u",nex_text->widget.object.objname,pic_id);
+    sprintf(Nex_cmdBuffer,"%s.pic=%u",nex_text->object.objname,pic_id);
     NexHardware_sendCommand(Nex_cmdBuffer);
     nex_retCode = NexHardware_waitResponse();
     #if defined(NEXTEXT_LOG) && (NEXTEXT_LOG>0)
@@ -79,7 +77,7 @@ NexReturnCode NexText_setCropImage(NexText *nex_text, uint8_t crop_image){
     if( nex_text->backgroundFill != NEXWIDGET_BACKGROUND_FILL_CROP_IMAGE){
         return NEX_RETCODE_ERROR;
     }
-    sprintf(Nex_cmdBuffer,"%s.picc=%u",nex_text->widget.object.objname,crop_image);
+    sprintf(Nex_cmdBuffer,"%s.picc=%u",nex_text->object.objname,crop_image);
     NexHardware_sendCommand(Nex_cmdBuffer);
     nex_retCode = NexHardware_waitResponse();
     #if defined(NEXTEXT_LOG) && (NEXTEXT_LOG>0)
@@ -91,7 +89,7 @@ NexReturnCode NexText_setCropImage(NexText *nex_text, uint8_t crop_image){
 #if defined(NEXTEXT_USE_ADVANCED_FUNCTIONS) && (NEXTEXT_USE_ADVANCED_FUNCTIONS > 0)
 
 NexReturnCode NexText_horizontalJustify(NexText *nex_text, NexWidget_horizontalAlign xcen){
-    sprintf(Nex_cmdBuffer,"%s.xcen=%u",nex_text->widget.object.objname,xcen);
+    sprintf(Nex_cmdBuffer,"%s.xcen=%u",nex_text->object.objname,xcen);
     NexHardware_sendCommand(Nex_cmdBuffer);
     nex_retCode = NexHardware_waitResponse();
     #if defined(NEXTEXT_LOG) && (NEXTEXT_LOG>0)
@@ -101,7 +99,7 @@ NexReturnCode NexText_horizontalJustify(NexText *nex_text, NexWidget_horizontalA
 }
 
 NexReturnCode NexText_verticalJustify(NexText *nex_text, NexWidget_verticalAlign ycen){
-    sprintf(Nex_cmdBuffer,"%s.ycen=%u",nex_text->widget.object.objname,ycen);
+    sprintf(Nex_cmdBuffer,"%s.ycen=%u",nex_text->object.objname,ycen);
     NexHardware_sendCommand(Nex_cmdBuffer);
     nex_retCode = NexHardware_waitResponse();
     #if defined(NEXTEXT_LOG) && (NEXTEXT_LOG>0)
@@ -111,7 +109,7 @@ NexReturnCode NexText_verticalJustify(NexText *nex_text, NexWidget_verticalAlign
 }
 
 NexReturnCode NexText_setWordWrap(NexText *nex_text, bool word_wrap){
-    sprintf(Nex_cmdBuffer,"%s.isbr=%u",nex_text->widget.object.objname,word_wrap);
+    sprintf(Nex_cmdBuffer,"%s.isbr=%u",nex_text->object.objname,word_wrap);
     NexHardware_sendCommand(Nex_cmdBuffer);
     nex_retCode = NexHardware_waitResponse();
     #if defined(NEXTEXT_LOG) && (NEXTEXT_LOG>0)

@@ -47,6 +47,7 @@ extern "C"{
  * 
  */
 typedef struct _NexButton{
+    NexObject object;                   // Basic object
     NexWidget widget; // Base widget properties
     #if defined(NEXBUTTON_USE_EFFECTS) && (NEXBUTTON_USE_EFFECTS > 0)
 

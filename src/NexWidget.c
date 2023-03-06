@@ -11,10 +11,6 @@
 
 #include "NexWidget.h"
 
-void NexWidget_init(NexWidget *nex_widget, uint8_t component_id, uint8_t page_id, const char *name){
-    NexObject_init(&nex_widget->object,page_id,component_id,name);
-    // TODO
-}
 
 
 

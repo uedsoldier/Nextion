@@ -11,7 +11,7 @@
 
 #include "NexObject.h"
 
-void NexObject_init(NexObject *object, uint8_t page_id, uint8_t component_id, const char *name){
+void NexObject_init(NexObject *object, NexObject_type type, uint8_t page_id, uint8_t component_id, const char *name){
     object->id = component_id;
     object->page_id = page_id;
     strcpy(object->objname,name);

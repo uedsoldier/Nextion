@@ -20,13 +20,21 @@ extern "C"
 #include <stdint.h>
 #include <stdbool.h>
 #include <string.h>
+#include "NexObject.h"
+#include "NexTouch.h"
 #include "crc.h"
 #pragma endregion
-    
+
 /**
- * @brief
+ * @brief 
+ * 
  */
-#define NEXHARDWARE_LOG 0
+typedef void (*NexHardware_eventCallback)(void *ptr);
+
+/**
+ * @brief Log level for NexHardware functionalities
+ */
+#define NEXHARDWARE_LOG 1
 /**
  * @brief
  *
@@ -156,6 +164,34 @@ void (*NexSerial_flushBuffer)(void);
  * 
  */
 void (*NexSerial_writeBuffer)(uint8_t *,size_t);
+
+/**
+ * @brief 
+ * 
+ * @return NexHardware_eventCallback 
+ */
+NexHardware_eventCallback NexHardware_autoWakeCallback;
+
+/**
+ * @brief 
+ * 
+ */
+void *NexHardware_autoWakeCallbackPtr;
+
+/**
+ * @brief 
+ * 
+ * @return NexHardware_eventCallback 
+ */
+NexHardware_eventCallback NexHardware_autoSleepCallback;
+
+/**
+ * @brief 
+ * 
+ */
+void *NexHardware_autoSleepCallbackPtr;
+
+
 #pragma endregion
 
 /**
@@ -201,24 +237,24 @@ void NexHardware_sendCommand(const char *command);
 NexReturnCode NexHardware_init(void);
 
 /**
- * @brief 
+ * @brief Wait for a response sequence from Nextion module
  * 
  * @return NexReturnCode 
  */
 NexReturnCode NexHardware_waitResponse(void);
 
 /**
- * @brief 
+ * @brief Receive a string
  * 
- * @param buffer 
- * @param len 
+ * @param buffer Pointer to store the string
+ * @param len Pointer to store length of received string 
  * @return true 
  * @return false 
  */
 bool NexHardware_getString(char *buffer,size_t *len);
 
 /**
- * @brief 
+ * @brief Receive a number
  * 
  * @param number 
  * @return true 
@@ -302,8 +338,68 @@ NexReturnCode NexHardware_setBaudRate(uint32_t baud_rate);
  */
 NexReturnCode NexHardware_setBaudRateSave(uint32_t baud_rate);
 
+/**
+ * @brief 
+ * 
+ * @param nex_listenList 
+ * @return NexReturnCode 
+ */
+NexReturnCode NexHardware_event(NexObject **nex_listenList);
 
+/**
+ * @brief 
+ * 
+ * @param page_id 
+ * @param component_id 
+ * @param event 
+ */
+void NexHardware_touchEvent(uint8_t *page_id, uint8_t *component_id, bool *event);
 
+/**
+ * @brief 
+ * 
+ * @param event 
+ */
+void NexHardware_sleepEvent(bool *event);
+
+/**
+ * @brief 
+ * 
+ * @param event 
+ */
+void NexHardware_autoWakeEvent(bool *event);
+
+/**
+ * @brief 
+ * 
+ */
+void NexHardware_autoEnteredSleep(void);
+
+/**
+ * @brief 
+ * 
+ * @param eventCallback 
+ */
+void NexHardware_attachAutoWakeEvent(NexHardware_eventCallback eventCallback, void *ptr);
+
+/**
+ * @brief 
+ * 
+ */
+void NexHardwawe_detachAutoWakeEvent(void);
+
+/**
+ * @brief 
+ * 
+ * @param eventCallback 
+ */
+void NexHardware_attachAutoSleepEvent(NexHardware_eventCallback eventCallback, void *ptr);
+
+/**
+ * @brief Deta
+ * 
+ */
+void NexHardwawe_detachAutoSleepEvent(void);
 
 #ifdef __cplusplus
 }

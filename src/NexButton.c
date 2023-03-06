@@ -13,8 +13,7 @@
 
 void NexButton_init(NexButton *nex_button, uint8_t component_id, uint8_t page_id, const char *name, Nex_effect effect, NexWidget_backgroundFill fill)
 {
-    NexObject_init(&nex_button->widget.object, page_id, component_id, name);
-    nex_button->widget.object.type = NEXOBJECT_TYPE_BUTTON;
+    NexObject_init(&nex_button->object,NEXOBJECT_TYPE_BUTTON,page_id, component_id, name);
     nex_button->widget.effect = effect; 
     nex_button->backgroundFill = fill;
 }
@@ -22,7 +21,7 @@ void NexButton_init(NexButton *nex_button, uint8_t component_id, uint8_t page_id
 NexReturnCode NexButton_setText(NexButton *nex_button, const char *text)
 {
     NexReturnCode retCode;
-    sprintf(Nex_cmdBuffer, "%s.txt=\"%s\"", nex_button->widget.object.objname, text);
+    sprintf(Nex_cmdBuffer, "%s.txt=\"%s\"", nex_button->object.objname, text);
     NexHardware_sendCommand(Nex_cmdBuffer);
     retCode = NexHardware_waitResponse();
 #if defined(NEXBUTTON_LOG) && (NEXBUTTON_LOG > 0)
@@ -33,7 +32,7 @@ NexReturnCode NexButton_setText(NexButton *nex_button, const char *text)
 
 uint16_t NexButton_getText(NexButton *nex_button, char *text, uint16_t len)
 {
-    sprintf(Nex_cmdBuffer, "get %s.txt", nex_button->widget.object.objname);
+    sprintf(Nex_cmdBuffer, "get %s.txt", nex_button->object.objname);
     NexHardware_sendCommand(Nex_cmdBuffer);
     return 0; // TODO
 }
@@ -41,7 +40,7 @@ uint16_t NexButton_getText(NexButton *nex_button, char *text, uint16_t len)
 NexReturnCode NexButton_setFontColor(NexButton *nex_button, uint16_t font_color)
 {
     NexReturnCode retCode;
-    sprintf(Nex_cmdBuffer, "%s.pco=%u", nex_button->widget.object.objname, font_color);
+    sprintf(Nex_cmdBuffer, "%s.pco=%u", nex_button->object.objname, font_color);
     NexHardware_sendCommand(Nex_cmdBuffer);
     retCode = NexHardware_waitResponse();
 #if defined(NEXBUTTON_LOG) && (NEXBUTTON_LOG > 0)
@@ -52,7 +51,7 @@ NexReturnCode NexButton_setFontColor(NexButton *nex_button, uint16_t font_color)
 
 NexReturnCode NexButton_setPressFontColor(NexButton *nex_button, uint16_t press_font_color){
     NexReturnCode retCode;
-    sprintf(Nex_cmdBuffer, "%s.pco2=%u", nex_button->widget.object.objname, press_font_color);
+    sprintf(Nex_cmdBuffer, "%s.pco2=%u", nex_button->object.objname, press_font_color);
     NexHardware_sendCommand(Nex_cmdBuffer);
     retCode = NexHardware_waitResponse();
 #if defined(NEXBUTTON_LOG) && (NEXBUTTON_LOG > 0)
@@ -63,7 +62,7 @@ NexReturnCode NexButton_setPressFontColor(NexButton *nex_button, uint16_t press_
 
 NexReturnCode NexButton_setBackGroundColor(NexButton *nex_button, uint16_t bg_color ){
     NexReturnCode retCode;
-    sprintf(Nex_cmdBuffer, "%s.bco=%u", nex_button->widget.object.objname, bg_color);
+    sprintf(Nex_cmdBuffer, "%s.bco=%u", nex_button->object.objname, bg_color);
     NexHardware_sendCommand(Nex_cmdBuffer);
     retCode = NexHardware_waitResponse();
 #if defined(NEXBUTTON_LOG) && (NEXBUTTON_LOG > 0)
@@ -74,7 +73,7 @@ NexReturnCode NexButton_setBackGroundColor(NexButton *nex_button, uint16_t bg_co
 
 NexReturnCode NexButton_setPressBackGroundColor(NexButton *nex_button, uint16_t press_bg_color){
     NexReturnCode retCode;
-    sprintf(Nex_cmdBuffer, "%s.bco2=%u", nex_button->widget.object.objname, press_bg_color);
+    sprintf(Nex_cmdBuffer, "%s.bco2=%u", nex_button->object.objname, press_bg_color);
     NexHardware_sendCommand(Nex_cmdBuffer);
     retCode = NexHardware_waitResponse();
 #if defined(NEXBUTTON_LOG) && (NEXBUTTON_LOG > 0)
@@ -88,7 +87,7 @@ NexReturnCode NexButton_setBackGroundImage(NexButton *nex_button, uint8_t pic_id
     if( nex_button->backgroundFill != NEXWIDGET_BACKGROUND_FILL_IMAGE){
         return NEX_RETCODE_ERROR;
     }
-    sprintf(Nex_cmdBuffer,"%s.pic=%u",nex_button->widget.object.objname,pic_id);
+    sprintf(Nex_cmdBuffer,"%s.pic=%u",nex_button->object.objname,pic_id);
     NexHardware_sendCommand(Nex_cmdBuffer);
     retCode = NexHardware_waitResponse();
     #if defined(NEXBUTTON_LOG) && (NEXBUTTON_LOG>0)
@@ -102,7 +101,7 @@ NexReturnCode NexButton_setCropImage(NexButton *nex_button, uint8_t crop_image){
     if( nex_button->backgroundFill != NEXWIDGET_BACKGROUND_FILL_CROP_IMAGE){
         return NEX_RETCODE_ERROR;
     }
-    sprintf(Nex_cmdBuffer,"%s.picc=%u",nex_button->widget.object.objname,crop_image);
+    sprintf(Nex_cmdBuffer,"%s.picc=%u",nex_button->object.objname,crop_image);
     NexHardware_sendCommand(Nex_cmdBuffer);
     retCode = NexHardware_waitResponse();
     #if defined(NEXBUTTON_LOG) && (NEXBUTTON_LOG>0)
@@ -115,7 +114,7 @@ NexReturnCode NexButton_setCropImage(NexButton *nex_button, uint8_t crop_image){
 
 NexReturnCode NexButton_horizontalJustify(NexButton *nex_button, NexButton_horizontalAlign xcen){
     NexReturnCode retCode;
-    sprintf(Nex_cmdBuffer,"%s.xcen=%u",nex_button->widget.object.objname,xcen);
+    sprintf(Nex_cmdBuffer,"%s.xcen=%u",nex_button->object.objname,xcen);
     NexHardware_sendCommand(Nex_cmdBuffer);
     retCode = NexHardware_waitResponse();
     #if defined(NEXBUTTON_LOG) && (NEXBUTTON_LOG>0)
@@ -126,7 +125,7 @@ NexReturnCode NexButton_horizontalJustify(NexButton *nex_button, NexButton_horiz
 
 NexReturnCode NexButton_verticalJustify(NexButton *nex_button, NexButton_verticalAlign ycen){
     NexReturnCode retCode;
-    sprintf(Nex_cmdBuffer,"%s.ycen=%u",nex_button->widget.object.objname,ycen);
+    sprintf(Nex_cmdBuffer,"%s.ycen=%u",nex_button->object.objname,ycen);
     NexHardware_sendCommand(Nex_cmdBuffer);
     retCode = NexHardware_waitResponse();
     #if defined(NEXBUTTON_LOG) && (NEXBUTTON_LOG>0)
@@ -137,7 +136,7 @@ NexReturnCode NexButton_verticalJustify(NexButton *nex_button, NexButton_vertica
 
 NexReturnCode NexButton_setWordWrap(NexButton *nex_button, bool word_wrap){
     NexReturnCode retCode;
-    sprintf(Nex_cmdBuffer,"%s.isbr=%u",nex_button->widget.object.objname,word_wrap);
+    sprintf(Nex_cmdBuffer,"%s.isbr=%u",nex_button->object.objname,word_wrap);
     NexHardware_sendCommand(Nex_cmdBuffer);
     retCode = NexHardware_waitResponse();
     #if defined(NEXBUTTON_LOG) && (NEXBUTTON_LOG>0)

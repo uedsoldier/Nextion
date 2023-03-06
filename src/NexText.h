@@ -45,6 +45,7 @@ extern "C"
  */
 typedef struct _NexText
 {
+    NexObject object;                   // Basic object
     NexWidget widget; // Base widget properties
 #if defined(NEXTEXT_USE_EFFECTS) && (NEXTEXT_USE_EFFECTS > 0)
 

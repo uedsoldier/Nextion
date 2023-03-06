@@ -56,6 +56,7 @@ typedef enum _NexScrollingText_direction {
  */
 typedef struct _NexScrollingText
 {
+    NexObject object;                   // Basic object
     NexWidget widget; // Base widget properties
 #if defined(NEXSCROLLINGTEXT_USE_EFFECTS) && (NEXSCROLLINGTEXT_USE_EFFECTS > 0)
 
@@ -100,12 +101,13 @@ NexReturnCode NexScrollingText_setText(NexScrollingText *nex_scrollingText, cons
 
 /**
  * @brief Get text attribute of component.
- * @param nex_scrollingText
+ * 
+ * @param nex_scrollingText 
  * @param text buffer storing text returned.
- * @param len length of buffer.
- * @return uint16_t The real length of text returned.
+ * @param len The length of text returned.
+ * @return NexReturnCode 
  */
-uint16_t NexScrollingText_getText(NexScrollingText *nex_scrollingText, char *text, uint16_t len);
+NexReturnCode NexScrollingText_getText(NexScrollingText *nex_scrollingText, char *text, uint16_t *len);
 
 #if defined(NEXSCROLLINGTEXT_USE_ADVANCED_FUNCTIONS) && (NEXSCROLLINGTEXT_USE_ADVANCED_FUNCTIONS > 0)
 /**
